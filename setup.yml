@@ -4,5 +4,5 @@
   connection: local
   roles:
     - base
-    # - work_env
+    - work_env
   
