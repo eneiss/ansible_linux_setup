@@ -1,0 +1,17 @@
+# Custom aliases
+alias myip="echo $(curl ipinfo.io/ip)"
+alias tmux="TERM=xterm-256color tmux"
+alias py="python3"
+
+{% if tf_aliases is defined %}
+alias tf="terraform"
+alias tfyes="terraform apply --auto-approve"
+alias tg="terragrunt"
+alias tgyes="terragrunt apply --auto-approve"
+{% endif %}
+
+{% if kube_aliases is defined %}
+alias k="kubectl"
+alias ks="kubectl -n kube-system"
+complete -o default -F __start_kubectl k
+{% endif %}

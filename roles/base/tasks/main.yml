@@ -10,8 +10,23 @@
     name: tmux
     state: present
 
+# - debug: var=ansible_user_id
+
+- name: Add home directory config files
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ ansible_user_id }}/{{ item }}"
+  loop: 
+    - .vimrc
+    - .tmux.conf
+
 - name: Install tree
   become: true
   package:
     name: tree
     state: present
+
+- name: Add bash aliases
+  import_tasks: bash_aliases.yml
+  tags:
+    - aliases

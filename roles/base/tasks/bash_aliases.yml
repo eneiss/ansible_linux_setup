@@ -1,0 +1,31 @@
+
+# ---------------- Bash aliases
+- name: Ensure bashrc and bash_aliases exists
+  file:
+    path: "/home/{{ ansible_user_id }}/test{{ item }}"
+    # path: "/home/{{ ansible_user_id }}/{{ item }}"
+    state: touch
+  loop:
+    - .bashrc
+    - .bash_aliases
+  tags:
+    - aliases
+
+- name: Include bash aliases in bashrc
+  blockinfile:
+    block: |
+      if [ -f ~/.bash_aliases ]; then
+          . ~/.bash_aliases
+      fi
+    path: "/home/{{ ansible_user_id }}/test.bashrc"
+    # path: "/home/{{ ansible_user_id }}/.bashrc"
+  tags:
+    - aliases
+
+- name: Add bash aliases
+  blockinfile:
+    block: "{{ lookup('template', '.bash_aliases.j2') }}"
+    dest: "/home/{{ ansible_user_id }}/test.bash_aliases"
+    # dest: "/home/{{ ansible_user_id }}/.bash_aliases"
+  tags:
+    - aliases
