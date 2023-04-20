@@ -1,0 +1,8 @@
+---
+- name: Emma's Linux config
+  hosts: localhost
+  connection: local
+  roles:
+    - base
+    # - work_env
+  

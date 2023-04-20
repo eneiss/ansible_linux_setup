@@ -1,0 +1,17 @@
+- name: Install vim
+  become: true
+  package:
+    name: vim
+    state: present
+
+- name: Install tmux
+  become: true
+  package:
+    name: tmux
+    state: present
+
+- name: Install tree
+  become: true
+  package:
+    name: tree
+    state: present
