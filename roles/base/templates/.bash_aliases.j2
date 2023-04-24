@@ -3,6 +3,9 @@ alias myip="echo $(curl ipinfo.io/ip)"
 alias tmux="TERM=xterm-256color tmux"
 alias py="python3"
 
+alias ap="ansible-playbook"
+
+# TODO: find an efficient way to conditionnally add aliases for different roles
 {% if tf_aliases is defined %}
 alias tf="terraform"
 alias tfyes="terraform apply --auto-approve"
