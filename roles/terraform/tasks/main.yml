@@ -13,3 +13,10 @@
     backrefs: yes
     regexp: 'PATH=(["]*)((?!.*?{{ tf_install_path }}).*?)(["]*)$'
     line: 'PATH=\1\2:{{ tf_install_path }}\3'
+
+- name: Install terragrunt
+  become: true
+  get_url:
+    url: "https://github.com/gruntwork-io/terragrunt/releases/download/{{ tg_version }}/terragrunt_linux_amd64"
+    dest: "{{ tg_install_path }}terragrunt"
+    mode: u+x,g+x,o+x

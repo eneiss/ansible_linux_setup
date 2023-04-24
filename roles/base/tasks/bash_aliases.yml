@@ -4,6 +4,7 @@
     path: "/home/{{ ansible_user_id }}/{{ item }}"
     state: touch
     modification_time: preserve
+    access_time: preserve
     mode: 0600
   loop:
     - .bashrc
