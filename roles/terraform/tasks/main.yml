@@ -1,4 +1,10 @@
 ---
+- name: Install unzip (required for Terraform install)
+  become: true
+  package:
+    name: unzip
+    state: "{{ packages_state }}"
+
 - name: Install Terraform 
   become: true
   unarchive:
