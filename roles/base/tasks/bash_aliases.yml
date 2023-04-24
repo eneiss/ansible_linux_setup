@@ -1,3 +1,4 @@
+---
 # ---------------- Bash aliases
 - name: Ensure bashrc and bash_aliases exists
   file:
