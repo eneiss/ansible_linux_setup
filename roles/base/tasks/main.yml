@@ -1,4 +1,21 @@
 ---
+# --- Update package repositories for the system's package manager
+- name: "[apt] Update package repository"
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    force_apt_get: true
+  when: ansible_pkg_mgr == "apt"
+
+- name: "[yum] Update package repository"
+  become: true
+  yum:
+    list: updates
+    update_cache: true
+  when: ansible_pkg_mgr == "yum"
+
+# --- Install packages
 - name: Install vim
   become: true
   package:
@@ -11,8 +28,7 @@
     name: tmux
     state: "{{ packages_state }}"
 
-# - debug: var=ansible_user_id
-
+# --- Add config files
 - name: Add home directory config files
   copy:
     src: "{{ item }}"

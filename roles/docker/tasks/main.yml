@@ -18,6 +18,7 @@
 
 # Install Docker once requirements are met
 - name: Install Docker packages
+  become: true
   package:
     name: "{{ item }}"
     state: "{{ packages_state }}"
