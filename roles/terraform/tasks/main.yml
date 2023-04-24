@@ -1,0 +1,5 @@
+- name: Install Terraform 
+  unarchive:
+    src: "https://releases.hashicorp.com/terraform/{{ tf_version }}/terraform_{{ tf_version }}_linux_amd64.zip"
+    dest: "{{ tf_install_path }}"
+    remote_src: True

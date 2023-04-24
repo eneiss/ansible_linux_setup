@@ -5,4 +5,4 @@
   roles:
     - base
     - work_env
-  
+    - terraform
