@@ -1,0 +1,30 @@
+- name: "[DEBUG] Print distro-related info"
+  debug:
+    msg: |
+      OS family: {{ ansible_os_family }}
+      Package manager: {{ ansible_pkg_mgr }}
+      OS distro: {{ ansible_distribution }}
+      OS releast name: {{ ansible_distribution_release }}
+
+# Include distro-specific config (repository setup)
+- include_tasks: docker-yum.yml
+  when: ansible_pkg_mgr == 'yum'
+
+- include_tasks: docker-apt.yml
+  when: ansible_pkg_mgr == 'apt'
+  
+- include_tasks: docker-rpm.yml
+  when: ansible_pkg_mgr == 'rpm'
+
+# Install Docker once requirements are met
+- name: Install Docker packages
+  package:
+    name: "{{ item }}"
+    state: "{{ packages_state }}"
+  loop: 
+    - docker-ce 
+    - docker-ce-cli 
+    - containerd.io 
+    - docker-buildx-plugin
+    - docker-compose-plugin
+  notify: restart_docker

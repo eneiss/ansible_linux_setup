@@ -8,3 +8,4 @@
     - base
     - work_env
     - terraform
+    - docker
