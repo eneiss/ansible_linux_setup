@@ -7,13 +7,16 @@
       OS releast name: {{ ansible_distribution_release }}
 
 # Include distro-specific config (repository setup)
-- include_tasks: docker-yum.yml
+- name: "[yum] Install Docker prerequisites"
+  include_tasks: docker-yum.yml
   when: ansible_pkg_mgr == 'yum'
 
-- include_tasks: docker-apt.yml
+- name: "[apt] Install Docker prerequisites"
+  include_tasks: docker-apt.yml
   when: ansible_pkg_mgr == 'apt'
   
-- include_tasks: docker-rpm.yml
+- name: "[rpm] Install Docker prerequisites"
+  include_tasks: docker-rpm.yml
   when: ansible_pkg_mgr == 'rpm'
 
 # Install Docker once requirements are met
@@ -28,4 +31,18 @@
     - containerd.io 
     - docker-buildx-plugin
     - docker-compose-plugin
+  notify: restart_docker
+
+- name: Create Docker group
+  group:
+    name: docker
+    state: present
+  notify: restart_docker
+
+- name: Add user to Docker group
+  user:
+    name: "{{ ansible_user_id }}"
+    append: true
+    groups:
+      - docker
   notify: restart_docker
