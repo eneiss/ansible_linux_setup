@@ -9,7 +9,7 @@
 # Include distro-specific config (repository setup)
 - name: "[yum] Install Docker prerequisites"
   include_tasks: docker-yum.yml
-  when: ansible_pkg_mgr == 'yum'
+  when: ansible_pkg_mgr == 'yum' and ansible_distribution != "Amazon"
 
 - name: "[apt] Install Docker prerequisites"
   include_tasks: docker-apt.yml
@@ -31,8 +31,18 @@
     - containerd.io 
     - docker-buildx-plugin
     - docker-compose-plugin
+  when: ansible_distribution != "Amazon"
   notify: restart_docker
 
+- name: "[Amazon Linux] Install Docker"
+  become: true
+  package:
+    name: docker
+    state: present
+  when: ansible_distribution == "Amazon"
+  notify: restart_docker
+
+# Additional setup for current non-root user
 - name: Create Docker group
   become: true
   group:
