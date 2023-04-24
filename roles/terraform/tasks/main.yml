@@ -1,5 +1,15 @@
 - name: Install Terraform 
+  become: true
   unarchive:
     src: "https://releases.hashicorp.com/terraform/{{ tf_version }}/terraform_{{ tf_version }}_linux_amd64.zip"
     dest: "{{ tf_install_path }}"
     remote_src: True
+
+- name: Add Terraform install directory to PATH
+  become: true
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    backrefs: yes
+    regexp: 'PATH=(["]*)((?!.*?{{ tf_install_path }}).*?)(["]*)$'
+    line: 'PATH=\1\2:{{ tf_install_path }}\3'
