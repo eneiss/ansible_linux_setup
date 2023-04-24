@@ -2,6 +2,8 @@
 - name: Emma's Linux config
   hosts: localhost
   connection: local
+  vars:
+    packages_state: present   # switch to "latest" to update packages when possible
   roles:
     - base
     - work_env

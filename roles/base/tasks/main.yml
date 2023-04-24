@@ -2,13 +2,13 @@
   become: true
   package:
     name: vim
-    state: present
+    state: "{{ packages_state }}"
 
 - name: Install tmux
   become: true
   package:
     name: tmux
-    state: present
+    state: "{{ packages_state }}"
 
 # - debug: var=ansible_user_id
 
@@ -24,7 +24,7 @@
   become: true
   package:
     name: tree
-    state: present
+    state: "{{ packages_state }}"
 
 - name: Add bash aliases
   import_tasks: bash_aliases.yml

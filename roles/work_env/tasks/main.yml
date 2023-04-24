@@ -1,9 +1,9 @@
 - name: Install git
   package:
     name: git
-    state: present
+    state: "{{ packages_state }}"
 
 - name: Install Python 3
   package:
     name: python3
-    state: present
+    state: "{{ packages_state }}"

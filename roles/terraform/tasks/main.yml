@@ -9,7 +9,6 @@
   become: true
   lineinfile:
     dest: /etc/environment
-    state: present
     backrefs: yes
     regexp: 'PATH=(["]*)((?!.*?{{ tf_install_path }}).*?)(["]*)$'
     line: 'PATH=\1\2:{{ tf_install_path }}\3'
