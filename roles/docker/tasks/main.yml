@@ -34,12 +34,14 @@
   notify: restart_docker
 
 - name: Create Docker group
+  become: true
   group:
     name: docker
     state: present
   notify: restart_docker
 
 - name: Add user to Docker group
+  become: true
   user:
     name: "{{ ansible_user_id }}"
     append: true
