@@ -1,0 +1,19 @@
+---
+- name: Copy Ansible banner to motd folder
+  become: true
+  copy:
+    src: banner.txt
+    dest: /etc/update-motd.d/banner.txt
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add Ansible banner script to motd
+  become: true
+  copy:
+    src: 02-ansible-banner.sh
+    dest: /etc/update-motd.d/02-ansible-banner.sh
+    owner: root
+    group: root
+    mode: 0755
+  
