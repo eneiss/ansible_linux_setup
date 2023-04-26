@@ -1,2 +1,4 @@
 #!/bin/bash
-cat ascii.txt
+echo
+cat /etc/update-motd.d/banner.txt
+echo

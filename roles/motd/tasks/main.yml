@@ -17,3 +17,13 @@
     group: root
     mode: 0755
   
+- name: Regenerate motd on login
+  become: true
+  lineinfile:
+    backrefs: true
+    line: '# \1'     # use single quotes to avoid having to escape the backslash
+    regexp: '(session +optional +pam_motd.so +motd=\/run\/motd.dynamic +noupdate)'
+    path: "{{ item }}"
+  loop:
+    - /etc/pam.d/sshd
+    - /etc/pam.d/login
