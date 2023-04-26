@@ -4,7 +4,7 @@
 
 An Ansible playbook to set up convenient tools in Linux environments for 
 different categories, ranging from basic text editor setup to Docker or 
-Terraform installations.
+Terraform installation.
 
 ## How to use
 

@@ -1,4 +1,10 @@
 ---
+- name: Check if AWS CLI already installed
+  command:
+    cmd: which aws
+  register: which_aws
+  changed_when: false
+
 - name: Include install if not on Amazon distributions
   include_tasks: aws-cli.yml
-  when: ansible_distribution != "Amazon"
+  when: ansible_distribution != "Amazon" and which_aws.rc == 1

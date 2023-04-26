@@ -17,10 +17,10 @@
 
 - name: Extract AWS CLI archive
   unarchive:
-    dest: /tmp/awscliv2
+    dest: /tmp/
     src: /tmp/awscliv2.zip
 
 - name: Install AWS CLI
   become: true
   command:
-    cmd: /tmp/awscliv2/aws/install
+    cmd: /tmp/aws/install
