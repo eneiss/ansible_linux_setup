@@ -6,3 +6,8 @@
     name: docker
     state: restarted
     enabled: true
+
+- name: Logout prompt
+  listen: logout_required
+  debug:
+    msg: "User-related modifications applied, please log out for them to take effect."

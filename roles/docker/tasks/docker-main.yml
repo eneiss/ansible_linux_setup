@@ -1,0 +1,48 @@
+# Include distro-specific config (repository setup)
+- name: "[yum|dnf] Add Docker repository"
+  include_tasks: docker-yum.yml
+  when: (ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf') and ansible_distribution != "Amazon"
+
+- name: "[apt] Install Docker prerequisites"
+  include_tasks: docker-apt.yml
+  when: ansible_pkg_mgr == 'apt'
+
+# Install Docker once requirements are met
+- name: Install Docker packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: "{{ packages_state }}"
+  loop: 
+    - docker-ce 
+    - docker-ce-cli 
+    - containerd.io 
+    - docker-buildx-plugin
+    - docker-compose-plugin
+  when: ansible_distribution != "Amazon"
+  notify: restart_docker
+
+- name: "[Amazon Linux] Install Docker"
+  become: true
+  package:
+    name: docker
+    state: present
+  when: ansible_distribution == "Amazon"
+  notify: restart_docker
+
+# Additional setup for current non-root user
+- name: Create Docker group
+  become: true
+  group:
+    name: docker
+    state: present
+  notify: restart_docker
+
+- name: Add user to Docker group
+  become: true
+  user:
+    name: "{{ ansible_user_id }}"
+    append: true
+    groups:
+      - docker
+  notify: restart_docker

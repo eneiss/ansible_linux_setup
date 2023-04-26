@@ -1,56 +1,25 @@
 - name: "[DEBUG] Print distro-related info"
   debug:
-    msg: |
-      OS family: {{ ansible_os_family }}
-      Package manager: {{ ansible_pkg_mgr }}
-      OS distro: {{ ansible_distribution }}
-      OS releast name: {{ ansible_distribution_release }}
+    msg:
+      - "OS family: {{ ansible_os_family }}"
+      - "Package manager: {{ ansible_pkg_mgr }}"
+      - "OS distro: {{ ansible_distribution }}"
+      - "OS releast name: {{ ansible_distribution_release }}"
 
-# Include distro-specific config (repository setup)
-- name: "[yum|dnf] Add Docker repository"
-  include_tasks: docker-yum.yml
-  when: (ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf') and ansible_distribution != "Amazon"
+# Docker cannot be installed directly on WSL, skip install if WSL
+- name: Check if running WSL
+  command:
+    cmd: grep WSL /proc/version
+  register: wsl_grep
+  # grep returns 2 if an error has occurred, 1 if no match, 0 if a match was found
+  failed_when: wsl_grep.rc == 2
+  changed_when: false
 
-- name: "[apt] Install Docker prerequisites"
-  include_tasks: docker-apt.yml
-  when: ansible_pkg_mgr == 'apt'
+- name: Install Docker if not on WSL
+  include_tasks: docker-main.yml
+  when: wsl_grep.rc == 1      # no match for grep WSL 
 
-# Install Docker once requirements are met
-- name: Install Docker packages
-  become: true
-  package:
-    name: "{{ item }}"
-    state: "{{ packages_state }}"
-  loop: 
-    - docker-ce 
-    - docker-ce-cli 
-    - containerd.io 
-    - docker-buildx-plugin
-    - docker-compose-plugin
-  when: ansible_distribution != "Amazon"
-  notify: restart_docker
-
-- name: "[Amazon Linux] Install Docker"
-  become: true
-  package:
-    name: docker
-    state: present
-  when: ansible_distribution == "Amazon"
-  notify: restart_docker
-
-# Additional setup for current non-root user
-- name: Create Docker group
-  become: true
-  group:
-    name: docker
-    state: present
-  notify: restart_docker
-
-- name: Add user to Docker group
-  become: true
-  user:
-    name: "{{ ansible_user_id }}"
-    append: true
-    groups:
-      - docker
-  notify: restart_docker
+- name: Skip install on WSL
+  debug: 
+    msg: WSL detected, skipping Docker install.
+  when: wsl_grep.rc == 0      # match for grep WSL found
