@@ -1,0 +1,8 @@
+---
+- name: Install monitoring packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: "{{ packages_state }}"
+  loop: "{{ monitoring_packages }}"
+  ignore_errors: true

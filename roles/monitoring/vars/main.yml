@@ -1,0 +1,6 @@
+---
+monitoring_packages: 
+  - iotop
+  - sysstat
+  - htop
+  - nmap
