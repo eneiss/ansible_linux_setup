@@ -5,6 +5,16 @@
     name: git
     state: "{{ packages_state }}"
 
+- name: Add global gitignore file
+  copy:
+    src: .gitignore_global
+    dest: "/home/{{ ansible_user_id }}/.gitignore_global"
+
+- name: Add git config file
+  template:
+    dest: "/home/{{ ansible_user_id }}/.gitconfig"
+    src: .gitconfig
+
 - name: Install Python 3
   become: true
   package:

@@ -1,0 +1,19 @@
+[user]
+        email = {{ git_email }}
+        name = {{ git_user }}
+[core]
+        editor = vim
+        excludesfile = ~/.gitignore_global
+[alias]
+        co  = checkout
+        st  = status
+        pur = pull --rebase
+        ci  = commit
+        rc  = rebase --continue
+        lg  = log -M --decorate --graph --abbrev-commit
+        br  = branch
+        ac  = !git add -A && git commit
+        tags = tag -l
+        branches = branch -a
+        remotes = remote -v
+        git = !exec git
