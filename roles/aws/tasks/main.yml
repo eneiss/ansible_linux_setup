@@ -1,0 +1,4 @@
+---
+- name: Include install if not on Amazon distributions
+  include_tasks: aws-cli.yml
+  when: ansible_distribution != "Amazon"

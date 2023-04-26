@@ -1,0 +1,25 @@
+---
+- name: Ensure dependencies are installed
+  package:
+    name: "{{ item }}"
+    state: "{{ packages_state }}"
+  loop: 
+    - unzip
+    - glibc
+    - groff
+    - less
+
+- name: Get AWS CLI archive
+  get_url:
+    dest: /tmp/awscliv2.zip
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip   # only for x86 (64 bits)
+
+- name: Extract AWS CLI archive
+  unarchive:
+    dest: /tmp/awscliv2
+    src: /tmp/awscliv2.zip
+
+- name: Install AWS CLI
+  become: true
+  command:
+    cmd: /tmp/awscliv2/aws/install
