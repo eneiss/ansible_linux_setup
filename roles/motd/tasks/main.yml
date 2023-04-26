@@ -11,8 +11,8 @@
 - name: Add Ansible banner script to motd
   become: true
   copy:
-    src: 02-ansible-banner.sh
-    dest: /etc/update-motd.d/02-ansible-banner.sh
+    src: 02-ansible-banner
+    dest: /etc/update-motd.d/02-ansible-banner
     owner: root
     group: root
     mode: 0755
