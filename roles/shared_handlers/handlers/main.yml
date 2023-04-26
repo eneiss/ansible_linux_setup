@@ -1,0 +1,8 @@
+---
+- name: Update bash aliases
+  listen: update_aliases
+  blockinfile:
+    block: "{{ lookup('template', '.bash_aliases.j2') }}"
+    dest: "/home/{{ ansible_user_id }}/.bash_aliases"
+  tags:
+    - aliases
