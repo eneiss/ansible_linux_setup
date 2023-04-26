@@ -36,7 +36,7 @@
   group:
     name: docker
     state: present
-  notify: restart_docker
+  notify: logout_required
 
 - name: Add user to Docker group
   become: true
@@ -45,4 +45,4 @@
     append: true
     groups:
       - docker
-  notify: restart_docker
+  notify: logout_required
