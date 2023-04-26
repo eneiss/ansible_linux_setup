@@ -5,10 +5,17 @@
   vars:
     packages_state: present   # switch to "latest" to update packages when possible
   roles:
-    - base
-    - work_env
-    - terraform
-    - docker
-    - motd
-    - aws
-    - monitoring
+    - role: base
+      tags: base
+    - role: work_env
+      tags: work_env
+    - role: terraform
+      tags: terraform
+    - role: docker
+      tags: docker
+    - role: motd
+      tags: motd
+    - role: aws
+      tags: aws
+    - role: monitoring
+      tags: monitoring
