@@ -47,3 +47,10 @@
   import_tasks: bash_aliases.yml
   tags:
     - aliases
+
+- name: Set visual & editor to vim 
+  linesinfile:
+    path: "/home/{{ ansible_user_id }}/.bashrc"
+    block: |
+      export VISUAL="vim"
+      export EDITOR="$VISUAL"
