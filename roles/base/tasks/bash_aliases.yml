@@ -27,6 +27,8 @@
 
 - name: Add bash aliases
   blockinfile:
+    marker_begin: "BASE BASH ALIASES - BEGIN"
+    marker_end: "BASE BASH ALIASES - END"
     block: "{{ lookup('template', '.bash_aliases.j2') }}"
     dest: "/home/{{ ansible_user_id }}/.bash_aliases"
   tags:
