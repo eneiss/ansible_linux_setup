@@ -49,7 +49,9 @@
     - aliases
 
 - name: Set visual & editor to vim 
-  linesinfile:
+  blockinfile:
+    marker_begin: "EXPORTS - BEGIN"
+    marker_end: "EXPORTS - END"
     path: "/home/{{ ansible_user_id }}/.bashrc"
     block: |
       export VISUAL="vim"

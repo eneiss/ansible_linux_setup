@@ -1,5 +1,6 @@
 ---
 - name: Ensure dependencies are installed
+  when: ansible_pkg_mgr != 'apt'
   become: true
   package:
     name: "{{ item }}"
@@ -7,6 +8,18 @@
   loop: 
     - unzip
     - glibc
+    - groff
+    - less  
+
+- name: "[Debian-based] Ensure dependencies are installed"
+  when: ansible_pkg_mgr == 'apt'
+  become: true
+  package:
+    name: "{{ item }}"
+    state: "{{ packages_state }}"
+  loop: 
+    - unzip
+    - libc6
     - groff
     - less
 
