@@ -1,0 +1,45 @@
+---
+- name: Install requirements
+  become: true
+  package:
+    name: "{{ item }}"
+    state: "{{ packages_state }}"
+  loop:
+  - ripgrep
+  - gcc
+
+- name: Check if nvim binary already exists
+  stat:
+    path: /opt/nvim-linux64/bin/nvim
+  register: nvim_present
+  failed_when: false
+
+- name: Download nvim pre-built binary archive
+  get_url:
+    dest: /tmp/nvim-linux64.tar.gz
+    url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+  when: not nvim_present
+
+- name: Extract nvim archive
+  become: true
+  unarchive:
+    dest: /opt/
+    src: /tmp/nvim-linux64.tar.gz
+    remote_src: true
+  when: not nvim_present
+
+- name: Add nvim binary to PATH
+  lineinfile:
+    dest: /home/{{ ansible_user_id }}/.bashrc
+    line: export PATH="$PATH:/opt/nvim-linux64/bin"
+
+- name: Git clone AstroNvim
+  ansible.builtin.git:
+    dest: /home/{{ ansible_user_id }}/.config/nvim
+    repo: https://github.com/AstroNvim/template
+    depth: 1
+
+- name: Git clone custom config
+  ansible.builtin.git:
+    dest: /home/{{ ansible_user_id }}/.config/nvim/lua/user
+    repo: https://github.com/eneiss/astronvim_config

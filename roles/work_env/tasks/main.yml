@@ -20,3 +20,6 @@
   package:
     name: python3
     state: "{{ packages_state }}"
+
+- name: Install neovim
+  include_tasks: astronvim.yaml

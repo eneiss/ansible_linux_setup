@@ -16,17 +16,16 @@
   when: ansible_pkg_mgr == "yum"
 
 # --- Install packages
-- name: Install vim
+- name: Install useful packages
   become: true
   package:
     name: vim
     state: "{{ packages_state }}"
-
-- name: Install tmux
-  become: true
-  package:
-    name: tmux
-    state: "{{ packages_state }}"
+  loop:
+  - vim
+  - tmux
+  - jq
+  - ripgrep
 
 # --- Add config files
 - name: Add home directory config files

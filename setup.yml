@@ -1,7 +1,6 @@
 ---
 - name: Emma's Linux config
-  hosts: localhost
-  connection: local
+  hosts: "{{ variable_host | default([]) }}"
   vars:
     packages_state: present   # switch to "latest" to update packages when possible
   roles:
@@ -15,7 +14,7 @@
       tags: docker
     - role: motd
       tags: motd
-    - role: aws
-      tags: aws
+    # - role: aws
+    #   tags: aws
     - role: monitoring
       tags: monitoring
