@@ -36,4 +36,18 @@
 - name: Install AWS CLI
   become: true
   command:
-    cmd: /tmp/aws/install
+    cmd: /tmp/aws/install --update
+
+- name: Get AWS CLI completer location
+  command:
+    cmd: which aws_completer
+  failed_when: false
+  changed_when: false
+  register: aws_completer_path
+
+- name: Configure autocomplete
+  lineinfile:
+    dest: "/home/{{ ansible_user_id }}/.bashrc"
+    line: "complete -C '{{ aws_completer_path }}'"
+  when: aws_completer_path is defined       # TODO: run only when path found
+
