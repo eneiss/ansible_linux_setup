@@ -1,6 +1,6 @@
 [user]
-        email = {{ git_email }}
-        name = {{ git_user }}
+        email = {{ work_env_git_email }}
+        name = {{ work_env_git_user }}
 [core]
         editor = vim
         excludesfile = ~/.gitignore_global

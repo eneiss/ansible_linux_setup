@@ -1,53 +1,46 @@
----
 - name: Ensure dependencies are installed
   when: ansible_pkg_mgr != 'apt'
   become: true
   package:
     name: "{{ item }}"
     state: "{{ packages_state }}"
-  loop: 
+  loop:
     - unzip
     - glibc
     - groff
-    - less  
-
+    - less
 - name: "[Debian-based] Ensure dependencies are installed"
   when: ansible_pkg_mgr == 'apt'
   become: true
   package:
     name: "{{ item }}"
     state: "{{ packages_state }}"
-  loop: 
+  loop:
     - unzip
     - libc6
     - groff
     - less
-
 - name: Get AWS CLI archive
   get_url:
     dest: /tmp/awscliv2.zip
-    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip   # only for x86 (64 bits)
-
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip  # only for x86 (64 bits)
+    mode: 0755
 - name: Extract AWS CLI archive
   unarchive:
     dest: /tmp/
     src: /tmp/awscliv2.zip
-
 - name: Install AWS CLI
   become: true
   command:
     cmd: /tmp/aws/install --update
-
 - name: Get AWS CLI completer location
   command:
     cmd: which aws_completer
   failed_when: false
   changed_when: false
   register: aws_completer_path
-
 - name: Configure autocomplete
   lineinfile:
     dest: "/home/{{ ansible_user_id }}/.bashrc"
     line: "complete -C '{{ aws_completer_path }}'"
-  when: aws_completer_path is defined       # TODO: run only when path found
-
+  when: aws_completer_path is defined  # TODO: run only when path found

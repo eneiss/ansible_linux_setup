@@ -1,4 +1,3 @@
----
 # --- Update package repositories for the system's package manager
 - name: "[apt] Update package repository"
   become: true
@@ -22,17 +21,18 @@
     name: vim
     state: "{{ packages_state }}"
   loop:
-  - vim
-  - tmux
-  - jq
-  - ripgrep
+    - vim
+    - tmux
+    - jq
+    - ripgrep
 
 # --- Add config files
 - name: Add home directory config files
   copy:
     src: "{{ item }}"
     dest: "/home/{{ ansible_user_id }}/{{ item }}"
-  loop: 
+    mode: 0644
+  loop:
     - .vimrc
     - .tmux.conf
 
@@ -47,7 +47,7 @@
   tags:
     - aliases
 
-- name: Set visual & editor to vim 
+- name: Set visual & editor to vim
   blockinfile:
     marker_begin: "EXPORTS - BEGIN"
     marker_end: "EXPORTS - END"

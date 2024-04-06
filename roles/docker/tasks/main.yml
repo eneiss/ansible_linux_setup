@@ -17,9 +17,9 @@
 
 - name: Install Docker if not on WSL
   include_tasks: docker-main.yml
-  when: wsl_grep.rc == 1      # no match for grep WSL 
+  when: wsl_grep.rc == 1  # no match for grep WSL
 
 - name: Skip install on WSL
-  debug: 
+  debug:
     msg: WSL detected, skipping Docker install.
-  when: wsl_grep.rc == 0      # match for grep WSL found
+  when: wsl_grep.rc == 0  # match for grep WSL found

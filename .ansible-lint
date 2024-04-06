@@ -1,0 +1,7 @@
+---
+profile: safety
+
+skip_list:
+- fqcn[action-core]
+- fqcn[action]
+- latest[git]

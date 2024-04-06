@@ -1,9 +1,8 @@
----
 # find all possible versions at: https://releases.hashicorp.com/terraform/index.json
 # TODO: automatically fetch latest version
-tf_version: 1.5.5
-tg_version: 0.49.1
+terraform_tf_version: 1.5.5
+terraform_tg_version: 0.49.1
 
 # default path
-tf_install_path: /usr/local/bin/
-tg_install_path: /usr/local/bin/
+terraform_tf_install_path: /usr/local/bin/
+terraform_tg_install_path: /usr/local/bin/

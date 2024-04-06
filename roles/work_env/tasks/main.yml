@@ -1,4 +1,3 @@
----
 - name: Install git
   become: true
   package:
@@ -9,11 +8,13 @@
   copy:
     src: .gitignore_global
     dest: "/home/{{ ansible_user_id }}/.gitignore_global"
+    mode: 0644
 
 - name: Add git config file
   template:
     dest: "/home/{{ ansible_user_id }}/.gitconfig"
     src: .gitconfig
+    mode: 0644
 
 - name: Install Python 3
   become: true

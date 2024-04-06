@@ -1,6 +1,6 @@
 # Include distro-specific config (repository setup)
 - name: "[yum|dnf] Add Docker repository"
-  include_tasks: docker-yum.yml
+  include_tasks: docker-yum-dnf.yml
   when: (ansible_pkg_mgr == 'yum' or ansible_pkg_mgr == 'dnf') and ansible_distribution != "Amazon"
 
 - name: "[apt] Install Docker prerequisites"
@@ -13,10 +13,10 @@
   package:
     name: "{{ item }}"
     state: "{{ packages_state }}"
-  loop: 
-    - docker-ce 
-    - docker-ce-cli 
-    - containerd.io 
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
     - docker-buildx-plugin
     - docker-compose-plugin
   when: ansible_distribution != "Amazon"

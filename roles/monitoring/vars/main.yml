@@ -1,5 +1,4 @@
----
-monitoring_packages: 
+monitoring_packages:
   - iotop
   - sysstat
   - htop

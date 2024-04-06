@@ -1,3 +1,2 @@
----
-git_user: eneiss
-git_email: "{{ git_user }}@users.noreply.github.com"
+work_env_git_user: eneiss
+work_env_git_email: "{{ work_env_git_user }}@users.noreply.github.com"

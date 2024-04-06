@@ -1,12 +1,11 @@
----
 - name: Install requirements
   become: true
   package:
     name: "{{ item }}"
     state: "{{ packages_state }}"
   loop:
-  - ripgrep
-  - gcc
+    - ripgrep
+    - gcc
 
 - name: Check if nvim binary already exists
   stat:
@@ -18,6 +17,7 @@
   get_url:
     dest: /tmp/nvim-linux64.tar.gz
     url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    mode: 755
   when: not nvim_present
 
 - name: Extract nvim archive
@@ -38,8 +38,10 @@
     dest: /home/{{ ansible_user_id }}/.config/nvim
     repo: https://github.com/AstroNvim/template
     depth: 1
+  when: not nvim_present
 
 - name: Git clone custom config
   ansible.builtin.git:
     dest: /home/{{ ansible_user_id }}/.config/nvim/lua/user
     repo: https://github.com/eneiss/astronvim_config
+  when: not nvim_present
