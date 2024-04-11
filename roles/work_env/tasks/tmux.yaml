@@ -1,0 +1,29 @@
+- name: Check if .tmux.conf.local already exists
+  stat:
+    path: /home/{{ ansible_user_id }}/.tmux.conf.local
+  register: tmux_conf_present
+  failed_when: false
+
+- name: Git clone .tmux
+  ansible.builtin.git:
+    dest: /home/{{ ansible_user_id }}/.tmux
+    repo: https://github.com/eneiss/.tmux.git
+  when: not tmux_conf_present.stat.exists
+
+- name: Create .tmux.conf symlink
+  ansible.builtin.file:
+    src: /home/{{ ansible_user_id }}/.tmux/.tmux.conf
+    dest: /home/{{ ansible_user_id }}/.tmux.conf
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    state: link
+    force: true
+
+- name: Copy .tmux.conf.local to home directory
+  ansible.builtin.copy:
+    src: /home/{{ ansible_user_id }}/.tmux/.tmux.conf.local
+    dest: /home/{{ ansible_user_id }}/.tmux.conf.local
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0644
+    remote_src: true

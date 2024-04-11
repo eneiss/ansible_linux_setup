@@ -18,7 +18,7 @@
     dest: /tmp/nvim-linux64.tar.gz
     url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
     mode: 755
-  when: not nvim_present
+  when: not nvim_present.stat.exists
 
 - name: Extract nvim archive
   become: true

@@ -24,3 +24,6 @@
 
 - name: Install neovim
   include_tasks: astronvim.yaml
+
+- name: Install tmux config
+  include_tasks: tmux.yaml
